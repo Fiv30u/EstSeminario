@@ -1,0 +1,15 @@
+exception.handler.common-api: false
+
+logging.level:
+  org.springframework: ERROR
+
+spring:
+  profiles:
+    include:
+      - swagger
+
+swagger:
+  enabled: true
+  title: est.seminario
+  description: Change description in application config
+

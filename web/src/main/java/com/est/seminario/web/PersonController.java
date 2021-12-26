@@ -1,29 +1,33 @@
 package com.est.seminario.web;
 
 
+import com.est.seminario.models.request.PersonDTO;
 import com.est.seminario.models.response.PersonInfoOutput;
+import com.est.seminario.services.PersonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Validated
 @RestController
 @RequestMapping("/person")
 public class PersonController {
 
-    /*@Autowired
-    private ExampleService exampleService;
-*/
+    @Autowired
+    private PersonService personService;
+
     @GetMapping(value = "/{personId}")
-    public ResponseEntity<PersonInfoOutput> getParticipantsByContractId(@PathVariable(value = "personId") String id) {
-        return ResponseEntity.ok(PersonInfoOutput.builder()
-                        .id(Integer.parseInt(id))
-                        .name("Mauro Almeida")
-                        .email("teste@gmail.com")
-                .build());
+    public ResponseEntity<PersonInfoOutput> getPersonById(@PathVariable(value = "personId") String id) {
+        return ResponseEntity.ok(personService.getPersonById(id));
     }
+
+    @PutMapping
+    public ResponseEntity<PersonInfoOutput> createPerson(@Valid @RequestBody PersonDTO personInput) {
+        return ResponseEntity.ok(personService.createPerson(personInput));
+    }
+
 
 }
